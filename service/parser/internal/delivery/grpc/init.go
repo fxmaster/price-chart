@@ -20,7 +20,7 @@ func Init(ctx context.Context, addr string) {
 	server := grpc.NewServer()
 
 	pb.RegisterParserServiceServer(server, &Server{
-		Handler: handler.Parser{},
+		Handler: handler.GRPC{},
 	})
 
 	ch := make(chan error)
