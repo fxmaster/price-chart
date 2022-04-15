@@ -1,2 +1,2 @@
 # price-chart
-Parser to store prcie history of goods
+Parser to store price history of goods
