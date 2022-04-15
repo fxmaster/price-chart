@@ -4,6 +4,10 @@ import (
 	"context"
 	"log"
 	"net"
+	pb "price-chart/pkg/protobuf/parser"
+	"price-chart/service/parser/internal/service/handler"
+
+	"google.golang.org/grpc"
 )
 
 func Init(ctx context.Context, addr string) {
@@ -13,31 +17,26 @@ func Init(ctx context.Context, addr string) {
 	}
 
 	log.Println("Start server...")
-	log.Println(listener)
-	// server := grpc.NewServer()
+	server := grpc.NewServer()
 
-	// pb.RegisterUserReaderServiceServer(server, &Server{
-	// 	Service: service.UserService{
-	// 		Repo: model.UserRepository{
-	// 			Mongo: mongo,
-	// 		},
-	// 	},
-	// })
+	pb.RegisterParserServiceServer(server, &Server{
+		Handler: handler.Parser{},
+	})
 
-	// ch := make(chan error)
+	ch := make(chan error)
 
-	// go func() {
-	// 	defer close(ch)
+	go func() {
+		defer close(ch)
 
-	// 	ch <- server.Serve(listener)
-	// }()
+		ch <- server.Serve(listener)
+	}()
 
-	// select {
-	// case <-ch:
-	// 	log.Println("failed to serve address:" + addr)
-	// case <-ctx.Done():
-	// 	log.Println("server terminated")
-	// 	log.Println("waiting for all goroutines stop...")
-	// 	server.GracefulStop()
-	// }
+	select {
+	case <-ch:
+		log.Println("failed to serve address:" + addr)
+	case <-ctx.Done():
+		log.Println("server terminated")
+		log.Println("waiting for all goroutines stop...")
+		server.GracefulStop()
+	}
 }
