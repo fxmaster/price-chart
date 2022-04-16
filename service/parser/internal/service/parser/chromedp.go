@@ -26,7 +26,7 @@ func init() {
 type Chromedp struct {
 }
 
-func Parse(parent context.Context, sel, url string) (float64, error) {
+func (Chromedp) Parse(parent context.Context, sel, url string) (float64, error) {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.Flag("headless", true),
 		chromedp.Flag("disable-gpu", false),
