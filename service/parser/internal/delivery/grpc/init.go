@@ -6,6 +6,7 @@ import (
 	"net"
 	pb "price-chart/pkg/protobuf/parser"
 	"price-chart/service/parser/internal/service/handler"
+	"price-chart/service/parser/internal/service/parser"
 
 	"google.golang.org/grpc"
 )
@@ -20,7 +21,9 @@ func Init(ctx context.Context, addr string) {
 	server := grpc.NewServer()
 
 	pb.RegisterParserServiceServer(server, &Server{
-		Handler: handler.GRPC{},
+		Handler: handler.GRPC{
+			Parser: parser.Chromedp{},
+		},
 	})
 
 	ch := make(chan error)
