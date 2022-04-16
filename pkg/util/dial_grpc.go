@@ -9,7 +9,7 @@ import (
 )
 
 func DialGRPC(addr string, block bool) (*grpc.ClientConn, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Microsecond*2000)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*2000)
 	defer cancel()
 
 	return dialGRPCContext(ctx, addr, block)
