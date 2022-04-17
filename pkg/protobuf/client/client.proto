@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package client;
+
+option go_package = "/;client";
+
+service ClientService {
+    rpc Add(AddRequest) returns (AddResponse);
+    rpc Update(UpdateRequest) returns (EmptyResponse);
+    rpc Remove(RemoveRequest) returns (EmptyResponse);
+
+    rpc Has(HasRequest) returns (HasResponse);
+    rpc Client(ClientRequest) returns (ClientResponse);
+
+    rpc AttachUrl(AttachUrlRequest) returns (EmptyResponse);
+    rpc DetachUrl(DetachUrlRequest) returns (EmptyResponse);
+}
+
+// Requests
+message AddRequest {
+    uint64 chat_id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string username = 4;
+    string chat_type = 5;
+}
+
+message UpdateRequest {
+    string client_id = 1;
+    uint64 chat_id = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string username = 5;
+    string chat_type = 6;
+}
+
+message RemoveRequest {
+    string client_id = 1;
+}
+
+message HasRequest {
+    oneof arg {
+        string id = 1;
+        uint64 chat_id = 2;
+    }
+}
+
+message ClientRequest {
+    oneof arg {
+        string id = 1;
+        uint64 chat_id = 2;
+    }
+}
+
+message AttachUrlRequest {
+    string client_id = 1;
+    string url = 2;
+}
+
+message DetachUrlRequest {
+    string client_id = 1;
+    string url = 2;
+}
+
+// Responses
+message AddResponse {
+    string client_id = 1;
+}
+
+message EmptyResponse {}
+
+message HasResponse {
+    bool ok = 1;
+}
+
+message ClientResponse {
+    Client client = 1;
+}
+
+message Client {
+    string id = 1;
+    uint64 chat_id = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string username = 5;
+    string chat_type = 6;
+    repeated string urls = 7;
+    int64 created_at = 8;
+    int64 updated_at = 9;
+}
