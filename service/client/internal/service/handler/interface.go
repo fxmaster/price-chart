@@ -11,6 +11,6 @@ type Handler interface {
 	Remove(ctx context.Context, in *pb.RemoveRequest) error
 	Has(ctx context.Context, in *pb.HasRequest, out *pb.HasResponse) error
 	Client(ctx context.Context, in *pb.ClientRequest, out *pb.ClientResponse) error
-	AttachUrl(ctx context.Context, in *pb.AttachUrlRequest) error
-	DetachUrl(ctx context.Context, in *pb.DetachUrlRequest) error
+	AttachURL(ctx context.Context, in *pb.AttachUrlRequest) error
+	DetachURL(ctx context.Context, in *pb.DetachUrlRequest) error
 }

@@ -14,8 +14,8 @@ type Repository interface {
 	Store(ctx context.Context, client Client) error
 	Delete(ctx context.Context, id string) error
 	Update(ctx context.Context, id string, dto *UpdateDTO) error
-	AttachUrl(ctx context.Context, id, url string) error
-	DetachUrl(ctx context.Context, id, url string) error
+	AttachURL(ctx context.Context, id, url string) error
+	DetachURL(ctx context.Context, id, url string) error
 }
 
 type Client struct {
