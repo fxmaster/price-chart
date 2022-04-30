@@ -74,5 +74,5 @@ message Price {
 }
 
 message NullDouble {
-    double price = 1;
+    double value = 1;
 }
