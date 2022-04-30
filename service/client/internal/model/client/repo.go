@@ -155,7 +155,7 @@ func (r ClientRepository) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (r ClientRepository) AttachUrl(ctx context.Context, id, url string) error {
+func (r ClientRepository) AttachURL(ctx context.Context, id, url string) error {
 	doc, err := r.LoadByID(ctx, id)
 	if err != nil {
 		return err
@@ -177,7 +177,7 @@ func (r ClientRepository) AttachUrl(ctx context.Context, id, url string) error {
 	return nil
 }
 
-func (r ClientRepository) DetachUrl(ctx context.Context, id, url string) error {
+func (r ClientRepository) DetachURL(ctx context.Context, id, url string) error {
 	doc, err := r.LoadByID(ctx, id)
 	if err != nil {
 		return err
