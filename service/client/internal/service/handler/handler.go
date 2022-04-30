@@ -128,15 +128,16 @@ func (g GRPC) Has(ctx context.Context, in *pb.HasRequest, out *pb.HasResponse) e
 		err error
 	)
 
-	err = validateHas(in)
-	if err != nil {
-		return err
-	}
-
 	switch inst := in.Arg.(type) {
 	case *pb.HasRequest_Id:
+		if !util.IsValidUUID(inst.Id) {
+			return status.Error(codes.Code(400), "request: arg.id must be uuid type")
+		}
 		ok, err = g.Repo.CheckByID(ctx, inst.Id)
 	case *pb.HasRequest_ChatId:
+		if inst.ChatId == 0 {
+			return status.Error(codes.Code(400), "request: arg.chat_id is 0")
+		}
 		ok, err = g.Repo.CheckByChatID(ctx, inst.ChatId)
 	}
 	if err != nil {
@@ -153,15 +154,16 @@ func (g GRPC) Client(ctx context.Context, in *pb.ClientRequest, out *pb.ClientRe
 		err   error
 	)
 
-	err = validateClient(in)
-	if err != nil {
-		return err
-	}
-
 	switch inst := in.Arg.(type) {
 	case *pb.ClientRequest_Id:
+		if !util.IsValidUUID(inst.Id) {
+			return status.Error(codes.Code(400), "request: arg.id must be uuid type")
+		}
 		model, err = g.Repo.LoadByID(ctx, inst.Id)
 	case *pb.ClientRequest_ChatId:
+		if inst.ChatId == 0 {
+			return status.Error(codes.Code(400), "request: arg.chat_id is 0")
+		}
 		model, err = g.Repo.LoadByChatID(ctx, inst.ChatId)
 	}
 	if err != nil {
@@ -183,20 +185,20 @@ func (g GRPC) Client(ctx context.Context, in *pb.ClientRequest, out *pb.ClientRe
 	return nil
 }
 
-func (g GRPC) AttachUrl(ctx context.Context, in *pb.AttachUrlRequest) error {
-	err := validateAttachUrl(in)
+func (g GRPC) AttachURL(ctx context.Context, in *pb.AttachUrlRequest) error {
+	err := validateAttachURL(in)
 	if err != nil {
 		return err
 	}
 
-	return g.Repo.AttachUrl(ctx, in.ClientId, in.Url)
+	return g.Repo.AttachURL(ctx, in.ClientId, in.Url)
 }
 
-func (g GRPC) DetachUrl(ctx context.Context, in *pb.DetachUrlRequest) error {
-	err := validateDetachUrl(in)
+func (g GRPC) DetachURL(ctx context.Context, in *pb.DetachUrlRequest) error {
+	err := validateDetachURL(in)
 	if err != nil {
 		return err
 	}
 
-	return g.Repo.DetachUrl(ctx, in.ClientId, in.Url)
+	return g.Repo.DetachURL(ctx, in.ClientId, in.Url)
 }
