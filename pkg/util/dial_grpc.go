@@ -8,8 +8,10 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
+const ctxTimeoutMin = time.Millisecond * 2000
+
 func DialGRPC(addr string, block bool) (*grpc.ClientConn, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*2000)
+	ctx, cancel := context.WithTimeout(context.Background(), ctxTimeoutMin)
 	defer cancel()
 
 	return dialGRPCContext(ctx, addr, block)
